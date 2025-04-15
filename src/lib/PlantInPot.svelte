@@ -4,10 +4,10 @@
     export let meanValue = 0; // default value
     export let datetime = "2023-10-01 12:00"; // default datetime
 
-    const initdate = new Date(datetime)
-    const adjdate = new Date(initdate.getTime()); // In dev-mode this is UTC, in prod this is the local time
+    $: initdate = new Date(datetime)
+    $: adjdate = new Date(initdate.getTime()); // In dev-mode this is UTC, in prod this is the local time
 
-    const formattedDate = new Intl.DateTimeFormat("en-US", {
+    $: formattedDate = new Intl.DateTimeFormat("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
