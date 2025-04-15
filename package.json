@@ -10,7 +10,9 @@
 		"prepare": "svelte-kit sync || echo ''"
 	},
 	"devDependencies": {
+		"@supabase/supabase-js": "^2.49.4",
 		"@sveltejs/adapter-auto": "^4.0.0",
+		"@sveltejs/adapter-vercel": "^5.7.0",
 		"@sveltejs/kit": "^2.16.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"svelte": "^5.0.0",
