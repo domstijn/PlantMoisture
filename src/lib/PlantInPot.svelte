@@ -5,7 +5,7 @@
     export let datetime = "2023-10-01 12:00"; // default datetime
 
     const initdate = new Date(datetime)
-    const adjdate = new Date(initdate.getTime() + 2 * 60 * 60 * 1000); // Adjust for timezone (UTC+2)
+    const adjdate = new Date(initdate.getTime()); // Adjust for timezone (UTC+2)
 
     const formattedDate = new Intl.DateTimeFormat("en-US", {
         year: "numeric",
