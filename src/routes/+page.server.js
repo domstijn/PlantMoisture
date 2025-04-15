@@ -1,6 +1,12 @@
 import { supabase } from "$lib/supabaseClient";
 
-export async function load() {
+// depends is a function and needs to be passed into the load function
+// load is automatically called by SvelteKit when the page is loaded
+export async function load({ depends }) {
+    // this allows us to invalidate based on the key passed in
+    // see +page.svelte
+    depends('app:moisture-data');
+
     try {
         // 1. Fetch data with error handling
         const { data, error } = await supabase
@@ -27,10 +33,8 @@ export async function load() {
 
         // 4. Return formatted data
         return {
-            props: {
                 mean: Number(mean.toFixed(2)), // Rounds to 2 decimal places
                 lastDatetime: new Date(lastDatetime).toISOString(),
-            },
         };
     } catch (err) {
         return {

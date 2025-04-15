@@ -5,7 +5,7 @@
     export let datetime = "2023-10-01 12:00"; // default datetime
 
     const initdate = new Date(datetime)
-    const adjdate = new Date(initdate.getTime()); // Adjust for timezone (UTC+2)
+    const adjdate = new Date(initdate.getTime()); // In dev-mode this is UTC, in prod this is the local time
 
     const formattedDate = new Intl.DateTimeFormat("en-US", {
         year: "numeric",
@@ -14,8 +14,6 @@
         hour: "2-digit",
         minute: "2-digit"
     }).format(adjdate);
-
-    console.log(meanValue);
 
     if (meanValue > 80) {
         plantColor = "#33cf1b"; // green
