@@ -1,0 +1,7 @@
+{
+    "name": "Plant Moisture Monitor",
+    "short_name": "MoistureApp",
+    "start_url": "/",
+    "display": "standalone",
+    "description": "An app that shows the moisture level of your plant."
+}
