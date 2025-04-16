@@ -15,9 +15,11 @@
         minute: "2-digit"
     }).format(adjdate);
 
-    $: if (meanValue > 90) {
+    $: if (meanValue > 110) {
+        plantColor = "blue"; // blue
+    } else if (meanValue > 90) {
         plantColor = "#33cf1b"; // green
-    } else if (meanValue < 90 && meanValue > 50) {
+    } else if (meanValue > 50) {
         plantColor = "#f4c300"; // yellow
     } else {
         plantColor = "#573205"; // brown
