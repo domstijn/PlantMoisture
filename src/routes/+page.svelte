@@ -8,10 +8,10 @@
     // invalidate is a SvelteKit function to invalidate the cache
     // it depends of the depends function in the +page.server.js file
     const rerunLoad = () => {
-        console.log("rerunLoad");
         invalidate('app:moisture-data');
     }
 
+    // effect is a Svelte function to run a piece of code when the component is mounted
     // autorefreshes every 2 minutes, see information when hovering over effect
     $effect(() => {
         // setInterval calls callback every xxx milliseconds
