@@ -20,7 +20,7 @@
 	});
 </script>
 
-<PlantInPot datetime={data.lastDatetime} meanValue={data.mean} />
+<PlantInPot datetime={data.lastDatetime} meanValue={data.mean} meanValueHoursAgo={data.meanHourAgo}/>
 
 <style>
     :global(html, body) {

@@ -3,8 +3,9 @@
     export let potColor = "#785513"; // default terracotta color
     export let meanValue = 0; // default value
     export let datetime = "2023-10-01 12:00"; // default datetime
+    export let meanValueHoursAgo = 0; // default value
 
-    $: initdate = new Date(datetime)
+    $: initdate = new Date(datetime);
     $: adjdate = new Date(initdate.getTime()); // In dev-mode this is UTC, in prod this is the local time
 
     $: formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -12,7 +13,7 @@
         month: "long",
         day: "numeric",
         hour: "2-digit",
-        minute: "2-digit"
+        minute: "2-digit",
     }).format(adjdate);
 
     $: if (meanValue > 110) {
@@ -33,14 +34,29 @@
         <div class="rim"></div>
         <div class="pot" style="background: {potColor};"></div>
         <div class="info">
-            <span class="time"
-                >Last update:&nbsp;{formattedDate}&nbsp; - &nbsp;</span
-            >
-            <span class="mean"
-                >Moisture-level: &nbsp;<span class="value"
-                    >{((meanValue / 135) * 100).toFixed(2)}%</span
-                ></span
-            >
+            <p>
+                <span class="mean"
+                    >Moisture-level: &nbsp;<span class="value"
+                        >{((meanValue / 135) * 100).toFixed(1)}%</span
+                    ></span
+                >
+                <span class="extra">
+                    {#if meanValueHoursAgo > meanValue}
+                        <span class="light">
+                            <span class="value"
+                                >({(
+                                    ((meanValue - meanValueHoursAgo) / 135) *
+                                    100
+                                ).toFixed(1)}%</span
+                            > in 6 hours)
+                        </span>
+                    {/if}
+                    <br />
+                    <span class="time"
+                        >Last update:&nbsp;{formattedDate}&nbsp;</span
+                    >
+                </span>
+            </p>
         </div>
     </div>
 </div>
@@ -61,7 +77,7 @@
         font-family: "Montserrat", sans-serif;
         font-style: oblique;
         font-weight: 700;
-        font-size: 1.25rem;
+        font-size: 1.35rem;
         color: rgb(11, 11, 11);
     }
 
@@ -109,15 +125,21 @@
         padding: 10px;
         font-family: "Inter", sans-serif;
         font-weight: 550;
-        font-size: 0.65rem;
+        font-size: 0.75rem;
 
         /* show detailed info in typical format */
         display: flex;
         color: #6c757d; /* Bootstrap’s muted text color */
     }
+    
+    .light {
+        font-weight: 200;
+        font-size: 0.5rem;
+    }
 
     .time {
+        margin-top: 2rem;
         font-weight: 200;
-        font-size: 0.65rem;
+        font-size: 0.5rem;
     }
 </style>
