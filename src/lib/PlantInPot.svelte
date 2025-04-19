@@ -66,7 +66,6 @@
         display: grid;
         place-content: center;
         height: 100vh; /* Full viewport height */
-        background: beige;
     }
 
     .title {
@@ -78,7 +77,7 @@
         font-style: oblique;
         font-weight: 700;
         font-size: 1.35rem;
-        color: rgb(11, 11, 11);
+        /* color: rgb(11, 11, 11); */
     }
 
     .plant-in-pot {
@@ -129,17 +128,19 @@
 
         /* show detailed info in typical format */
         display: flex;
-        color: #6c757d; /* Bootstrap’s muted text color */
     }
     
     .light {
         font-weight: 200;
         font-size: 0.5rem;
+        color: var(--text-info-color);
+
     }
 
     .time {
         margin-top: 2rem;
         font-weight: 200;
         font-size: 0.5rem;
+        color: var(--text-info-color);
     }
 </style>

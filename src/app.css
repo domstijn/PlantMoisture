@@ -1,0 +1,22 @@
+/* Global styles */
+:root {
+    --bg-color: rgb(232, 232, 220);
+    --text-color: #000000;
+    --text-info-color: #4b4b4b;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #121212;
+        --text-color: #ffffff;
+        --text-info-color: #b5b5b5;
+    }
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
