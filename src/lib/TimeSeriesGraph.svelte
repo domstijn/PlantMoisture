@@ -149,7 +149,7 @@
             fill="none"
             stroke="steelblue"
             stroke-width="1.5"
-            opacity="0.95"
+            opacity="0.85"
         />
 
         {#if y0Position !== undefined}
@@ -255,7 +255,7 @@
     .tiny-button {
         padding: 1px 3px;
         font-size: 8px;
-        border: 1px solid #aaa;
+        border: 0px solid #aaa;
         border-radius: 2px;
         background-color: #e0e0e0;
         cursor: pointer;
