@@ -1,7 +1,5 @@
 <script>
     export let data = []; // Array of { time: Date, value: number }
-    export let vUpper;
-    export let vLower;
     export let hoursSpan;
     export let width = 400;
     export let height = 200;
@@ -10,17 +8,18 @@
     export let y0Value = undefined;
 
     const MAXVALUE = 135;
-    let y0Position = undefined;
 
     $: if (
         data.length > 0 &&
-        vUpper !== undefined &&
-        vLower !== undefined &&
         hoursSpan !== undefined
     ) {
         // Find the earliest and latest times
         const minTime = Math.min(...data.map((d) => d.time.getTime()));
         const maxTime = Math.max(...data.map((d) => d.time.getTime()));
+
+        const allValues = data.map(item => item.value);
+        let vUpper = Math.max(...allValues) * 1.0125; // Add a little buffer
+        let vLower = Math.min(...allValues) * 0.9875; // Add a little buffer
 
         data = data.map((item) => ({
             time: item.time,
@@ -100,7 +99,7 @@
     let pathData = "";
     let xAxisLabels = [];
     let yAxisLabels = [];
-
+    let y0Position = undefined;
     let lengthTicks = 4;
 </script>
 

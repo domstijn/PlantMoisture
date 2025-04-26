@@ -20,13 +20,12 @@
     });
 </script>
 
+
 <PlantInPot
-    datetime={data.lastDatetime}
+    datetime={data.lastDatetime} 
     meanValue={data.mean}
     meanValueHoursAgo={data.meanHourAgo}
     timeSeriesData={data.timeSeriesData}
-    vUpper={data.vUpper}
-    vLower={data.vLower}
     hoursSpan={data.hoursSpan}
 />
 

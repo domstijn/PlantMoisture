@@ -7,8 +7,6 @@
     export let datetime = "2023-10-01 12:00"; // default datetime
     export let meanValueHoursAgo = 0; // default value
     export let timeSeriesData = null;
-    export let vUpper = null;
-    export let vLower = null;
     export let hoursSpan = null;
 
     $: initdate = new Date(datetime);
@@ -82,7 +80,7 @@
         </div>
     </div>
     <div class="TimeSeries">
-        <TimeSeriesGraph data={timeSeriesData} {vUpper} {vLower} {hoursSpan} y0Value={(meanValue / 135) * 100}/>
+        <TimeSeriesGraph data={timeSeriesData} {hoursSpan} y0Value={(meanValue / 135) * 100}/>
     </div>
 </div>
 

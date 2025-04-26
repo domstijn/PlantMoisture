@@ -135,8 +135,6 @@ export async function load({ depends }) {
             lastDatetime: new Date(lastDatetime).toISOString(),
             meanHourAgo: Number(meanHourAgo.toFixed(2)), // Rounds to 2 decimal places
             timeSeriesData: averagedData,
-            vUpper: vUpper,
-            vLower: vLower,
             hoursSpan: hourSpan, // Reflecting the 6 hours of data fetched
         };
     } catch (err) {
