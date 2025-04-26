@@ -7,11 +7,37 @@
 
     export let data = []; // Array of { time: Date, value: number }
     export let hoursSpan;
-    export let width = 400;
-    export let height = 200;
+    export let width_ = 800;
+    export let height_ = 350;
     export let padding = 30;
 
     export let y0Value = undefined;
+
+    // multiplier for resizing in small windows
+    import { browser } from '$app/environment';
+
+	let multiplier = 1;
+
+	if (browser) {
+		const mediaQuery_1 = window.matchMedia("(max-width: 850px)");
+        const mediaQuery_2 = window.matchMedia("(max-width: 600px)");
+
+		const updateMultiplier = () => {
+			multiplier = mediaQuery_1.matches ? 0.65 : 1;
+            multiplier = mediaQuery_2.matches ? 0.4 : multiplier;
+
+		};
+
+		updateMultiplier();
+		mediaQuery_1.addEventListener('change', updateMultiplier);
+        mediaQuery_2.addEventListener("change", updateMultiplier);
+	}
+
+    $: height = height_ * multiplier
+    $: width = width_ * multiplier
+
+    
+    // -----------------------
 
     const MAXVALUE = 135;
     const pathTween = tweened("", {
@@ -44,16 +70,16 @@
         const maxTime = Math.max(...data.map((d) => d.time.getTime()));
 
         const allValues = data.map((item) => item.value);
-        let vUpper = Math.max(...allValues) * 1.0125; // Add a little buffer
-        let vLower = Math.min(...allValues) * 0.9875; // Add a little buffer
+        let vUpper_ = Math.max(...allValues) * 1.0125; // Add a little buffer
+        let vLower_ = Math.min(...allValues) * 0.9875; // Add a little buffer
 
-        data = data.map((item) => ({
+        let data_ = data.map((item) => ({
             time: item.time,
             value: (item.value / MAXVALUE) * 100,
         }));
 
-        vUpper = (vUpper / MAXVALUE) * 100;
-        vLower = (vLower / MAXVALUE) * 100;
+        let vUpper = (vUpper_ / MAXVALUE) * 100;
+        let vLower = (vLower_ / MAXVALUE) * 100;
 
         // Calculate scales
         timeScale = (t) =>
@@ -67,7 +93,7 @@
 
         // Generate the path data for the line
         pathTween.set(
-            data
+            data_
                 .sort((a, b) => a.time - b.time)
                 .map(
                     (d, i) =>
@@ -78,8 +104,8 @@
 
         // Generate x-axis labels based on the existing datetime values
         const numLabels = 5;
-        const firstTime = data[0].time;
-        const lastTime = data[data.length - 1].time;
+        const firstTime = data_[0].time;
+        const lastTime = data_[data_.length - 1].time;
 
         const timeDifference = lastTime.getTime() - firstTime.getTime();
 
@@ -249,14 +275,7 @@
         /* border: 1px solid #ccc; */
         font-family: var(--font-family-primary);
         font-size: 0.8em;
-        width: 400px; /* or whatever your "normal" width is */
         max-width: 100%; /* allow it to shrink with the window */
-    }
-
-    @media (max-width: 600px) {
-        svg {
-            width: 90%; /* or some smaller size */
-        }
     }
 
     text {
@@ -287,4 +306,18 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    
 </style>
+
+
+<!-- /* Responsive changes for smaller screens */
+    @media (max-height: 700px), (max-width: 600px) {
+        svg {
+            /* width: 90%; or some smaller size */
+            width: 100;
+
+        }
+    
+    }
+ -->
