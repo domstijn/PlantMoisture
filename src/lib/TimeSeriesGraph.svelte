@@ -142,103 +142,106 @@
     let lengthTicks = 4;
 </script>
 
-<svg {width} {height}>
-    {#if $pathTween}
-        <path
-            d={$pathTween}
-            fill="none"
-            stroke="steelblue"
-            stroke-width="1.5"
-            opacity="0.85"
-        />
+<div class="container">
+    <div class="svg">
+        <svg {width} {height}>
+            {#if $pathTween}
+                <path
+                    d={$pathTween}
+                    fill="none"
+                    stroke="steelblue"
+                    stroke-width="1.5"
+                    opacity="0.85"
+                />
 
-        {#if y0Position !== undefined}
-            <line
+                {#if y0Position !== undefined}
+                    <line
+                        x1={padding}
+                        y1={y0Position}
+                        x2={width - padding}
+                        y2={y0Position}
+                        stroke="red"
+                        stroke-dasharray="5,5"
+                        stroke-width=".5"
+                        opacity="0.3"
+                    />
+                    <text
+                        x={width - padding + 5}
+                        opacity="0.7"
+                        y={y0Position + 3}
+                        text-anchor="start"
+                        font-size="0.6em"
+                        fill="red">{Math.round(y0Value * 10) / 10}%</text
+                    >
+                {/if}
+
+                <!-- x - axis -->
+                <!-- <line
                 x1={padding}
-                y1={y0Position}
+                y1={height - padding}
                 x2={width - padding}
-                y2={y0Position}
-                stroke="red"
-                stroke-dasharray="5,5"
-                stroke-width=".5"
-                opacity="0.3"
-            />
-            <text
-                x={width - padding + 5}
-                opacity="0.7"
-                y={y0Position + 3}
-                text-anchor="start"
-                font-size="0.6em"
-                fill="red">{Math.round(y0Value * 10) / 10}%</text
-            >
-        {/if}
+                y2={height - padding}
+                stroke="black"
+                stroke-width="1"
+            /> -->
+                {#each xAxisLabels as label}
+                    <text
+                        x={label.x}
+                        y={height - padding + 15}
+                        text-anchor="middle"
+                        opacity="0.5"
+                        font-size="0.55em">{label.label}</text
+                    >
+                    <line
+                        x1={label.x}
+                        y1={height - padding - lengthTicks / 2}
+                        x2={label.x}
+                        y2={height - padding + lengthTicks / 2}
+                        stroke="gray"
+                        stroke-width="0.5"
+                        opacity="0.5"
+                    />
+                {/each}
 
-        <!-- x - axis -->
-        <!-- <line
-            x1={padding}
-            y1={height - padding}
-            x2={width - padding}
-            y2={height - padding}
-            stroke="black"
-            stroke-width="1"
-        /> -->
-        {#each xAxisLabels as label}
-            <text
-                x={label.x}
-                y={height - padding + 15}
-                text-anchor="middle"
-                opacity="0.5"
-                font-size="0.55em">{label.label}</text
-            >
-            <line
-                x1={label.x}
-                y1={height - padding - lengthTicks / 2}
-                x2={label.x}
-                y2={height - padding + lengthTicks / 2}
-                stroke="gray"
-                stroke-width="0.5"
-                opacity="0.5"
-            />
-        {/each}
-
-        <!-- y - axis -->
-        <!-- <line
-            x1={padding}
-            y1={padding}
-            x2={padding}
-            y2={height - padding}
-            stroke="black"
-            stroke-width="1"
-        /> -->
-        {#each yAxisLabels as label}
-            <text
-                x={padding - 5}
-                y={label.y + 3}
-                text-anchor="end"
-                opacity="0.75"
-                font-size="0.6em">{label.label}%</text
-            >
-            <line
-                x1={padding - lengthTicks / 2}
-                y1={label.y}
-                x2={padding + lengthTicks / 2}
-                y2={label.y}
-                stroke="gray"
-                stroke-width="0.5"
-                opacity="0.5"
-            />
-        {/each}
-    {:else}
-        <text x={width / 2} y={height / 2} text-anchor="middle"
-            >No data to display</text
+                <!-- y - axis -->
+                <!-- <line
+                x1={padding}
+                y1={padding}
+                x2={padding}
+                y2={height - padding}
+                stroke="black"
+                stroke-width="1"
+            /> -->
+                {#each yAxisLabels as label}
+                    <text
+                        x={padding - 5}
+                        y={label.y + 3}
+                        text-anchor="end"
+                        opacity="0.75"
+                        font-size="0.6em">{label.label}%</text
+                    >
+                    <line
+                        x1={padding - lengthTicks / 2}
+                        y1={label.y}
+                        x2={padding + lengthTicks / 2}
+                        y2={label.y}
+                        stroke="gray"
+                        stroke-width="0.5"
+                        opacity="0.5"
+                    />
+                {/each}
+            {:else}
+                <text x={width / 2} y={height / 2} text-anchor="middle"
+                    >No data to display</text
+                >
+            {/if}
+        </svg>
+    </div>
+    <div class="button">
+        <button class="tiny-button" on:click={cycleHours}
+            >{selectedHours} hours</button
         >
-    {/if}
-</svg>
-
-<div>
-    <button class="tiny-button" on:click={cycleHours}
-        >{selectedHours} hours</button
-    >
+    </div>
 </div>
 
 <style>
@@ -246,14 +249,30 @@
         /* border: 1px solid #ccc; */
         font-family: var(--font-family-primary);
         font-size: 0.8em;
+        width: 400px; /* or whatever your "normal" width is */
+        max-width: 100%; /* allow it to shrink with the window */
+    }
+
+    @media (max-width: 600px) {
+        svg {
+            width: 90%; /* or some smaller size */
+        }
     }
 
     text {
         fill: var(--text-color);
     }
 
-    div {
+    div.container {
         display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    div.container > div {
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .tiny-button {
@@ -262,7 +281,7 @@
         border: 0px solid #aaa;
         border-radius: 2px;
         background-color: var(--bg-color-gray-inv);
-        color: var(--text-color)
+        color: var(--text-color);
         cursor: pointer;
 
         margin-left: auto;
