@@ -3,6 +3,8 @@
     --bg-color: rgb(232, 232, 220);
     --text-color: #000000;
     --text-info-color: #4b4b4b;
+
+    --font-family-primary: "Montserrat", sans-serif;
 }
 
 /* Dark mode */

@@ -1,9 +1,15 @@
 <script>
+    import TimeSeriesGraph from "$lib/TimeSeriesGraph.svelte"; // Adjust the path
+
     export let plantColor = "#33cf1b"; // default green color
     export let potColor = "#785513"; // default terracotta color
     export let meanValue = 0; // default value
     export let datetime = "2023-10-01 12:00"; // default datetime
     export let meanValueHoursAgo = 0; // default value
+    export let timeSeriesData = null;
+    export let vUpper = null;
+    export let vLower = null;
+    export let hoursSpan = null;
 
     $: initdate = new Date(datetime);
     $: adjdate = new Date(initdate.getTime()); // In dev-mode this is UTC, in prod this is the local time
@@ -25,6 +31,21 @@
     } else {
         plantColor = "#573205"; // brown
     }
+
+    // -----------------------------------------------------------------
+
+    // // Example data (replace with your actual data from Supabase)
+    // const sensorData = [
+    //     { time: new Date(Date.now() - 4 * 3600 * 1000), value: 15 },
+    //     { time: new Date(Date.now() - 3 * 3600 * 1000), value: 22 },
+    //     { time: new Date(Date.now() - 2 * 3600 * 1000), value: 18 },
+    //     { time: new Date(Date.now() - 1 * 3600 * 1000), value: 25 },
+    //     { time: new Date(), value: 20 },
+    // ];
+
+    // const upperValue = 30;
+    // const lowerValue = 10;
+    // const timeWindow = 5; // Show data for the last 5 hours
 </script>
 
 <div class="wrapper">
@@ -38,8 +59,9 @@
                 <span class="mean"
                     >Moisture-level: &nbsp;<span class="value"
                         >{((meanValue / 135) * 100).toFixed(1)}%</span
-                    ></span
-                >
+                    >
+                    <!-- maximum value can be more than 135, like on 22/04/2025 it was 136.6 -->
+                </span>
                 <span class="extra">
                     {#if meanValueHoursAgo > meanValue}
                         <span class="light">
@@ -59,6 +81,9 @@
             </p>
         </div>
     </div>
+    <div class="TimeSeries">
+        <TimeSeriesGraph data={timeSeriesData} {vUpper} {vLower} {hoursSpan} y0Value={(meanValue / 135) * 100}/>
+    </div>
 </div>
 
 <style>
@@ -72,7 +97,7 @@
         /* background: red; */
         margin-left: auto;
         margin-right: auto;
-        margin-bottom: 20vh;
+        margin-bottom: 15vh;
         font-family: "Montserrat", sans-serif;
         font-style: oblique;
         font-weight: 700;
@@ -86,7 +111,7 @@
         margin-right: auto;
         max-width: fit-content;
         padding: 5px;
-        margin-bottom: 10vh;
+        margin-bottom: 2.5vh;
     }
 
     .plant {
@@ -129,12 +154,11 @@
         /* show detailed info in typical format */
         display: flex;
     }
-    
+
     .light {
         font-weight: 200;
         font-size: 0.5rem;
         color: var(--text-info-color);
-
     }
 
     .time {
