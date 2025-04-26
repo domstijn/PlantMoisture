@@ -248,6 +248,10 @@
         font-size: 0.8em;
     }
 
+    text {
+        fill: var(--text-color);
+    }
+
     div {
         display: flex;
     }
@@ -257,7 +261,8 @@
         font-size: 8px;
         border: 0px solid #aaa;
         border-radius: 2px;
-        background-color: #e0e0e0;
+        background-color: var(--bg-color-gray-inv);
+        color: var(--text-color)
         cursor: pointer;
 
         margin-left: auto;
