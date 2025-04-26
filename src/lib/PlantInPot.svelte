@@ -6,7 +6,7 @@
     export let meanValue = 0; // default value
     export let datetime = "2023-10-01 12:00"; // default datetime
     export let meanValueHoursAgo = 0; // default value
-    export let timeSeriesData = null;
+    export let timeSeriesData = [];
     export let hoursSpan = null;
 
     $: initdate = new Date(datetime);

@@ -1,4 +1,10 @@
 <script>
+    import { goto } from "$app/navigation";
+    import { page } from "$app/stores";
+    import { tweened } from "svelte/motion";
+    import { cubicOut, cubicInOut, quintInOut } from "svelte/easing";
+    import { interpolatePath } from "d3-interpolate-path";
+
     export let data = []; // Array of { time: Date, value: number }
     export let hoursSpan;
     export let width = 400;
@@ -8,16 +14,36 @@
     export let y0Value = undefined;
 
     const MAXVALUE = 135;
+    const pathTween = tweened("", {
+        duration: 300,
+        easing: quintInOut,
+        interpolate: interpolatePath,
+    });
 
-    $: if (
-        data.length > 0 &&
-        hoursSpan !== undefined
-    ) {
+    // change hours to show on graph...
+    let selectedHours = 24; // Default value
+    const availableHours = [24, 48, 168];
+
+    function cycleHours() {
+        const currentIndex = availableHours.indexOf(selectedHours);
+        const nextIndex = (currentIndex + 1) % availableHours.length;
+        selectedHours = availableHours[nextIndex];
+        updateData();
+    }
+
+    async function updateData() {
+        await goto(`?hours=${selectedHours}`, {
+            keepfocus: true,
+            noscroll: true,
+        });
+    }
+
+    $: if (data.length > 0 && hoursSpan !== undefined) {
         // Find the earliest and latest times
         const minTime = Math.min(...data.map((d) => d.time.getTime()));
         const maxTime = Math.max(...data.map((d) => d.time.getTime()));
 
-        const allValues = data.map(item => item.value);
+        const allValues = data.map((item) => item.value);
         let vUpper = Math.max(...allValues) * 1.0125; // Add a little buffer
         let vLower = Math.min(...allValues) * 0.9875; // Add a little buffer
 
@@ -31,37 +57,48 @@
 
         // Calculate scales
         timeScale = (t) =>
-            padding + (width - 2 * padding) * ((t.getTime() - minTime) / (maxTime - minTime));
+            padding +
+            (width - 2 * padding) *
+                ((t.getTime() - minTime) / (maxTime - minTime));
         valueScale = (v) =>
-            height - padding - (height - 2 * padding) * ((v - vLower) / (vUpper - vLower));
+            height -
+            padding -
+            (height - 2 * padding) * ((v - vLower) / (vUpper - vLower));
 
         // Generate the path data for the line
-        pathData = data
-            .sort((a, b) => a.time - b.time)
-            .map(
-                (d, i) =>
-                    `${i === 0 ? "M" : "L"} ${timeScale(d.time)},${valueScale(d.value)}`
-            )
-            .join(" ");
+        pathTween.set(
+            data
+                .sort((a, b) => a.time - b.time)
+                .map(
+                    (d, i) =>
+                        `${i === 0 ? "M" : "L"} ${timeScale(d.time)},${valueScale(d.value)}`
+                )
+                .join(" ")
+        );
 
-        // Generate x-axis labels (simplified for T-hours)
-        const now = new Date();
-        xAxisLabels = Array.from({ length: 5 }, (_, i) => {
-            const time = new Date(
-                now.getTime() - hoursSpan * 3600 * 1000 * (i / 4)
+        // Generate x-axis labels based on the existing datetime values
+        const numLabels = 5;
+        const firstTime = data[0].time;
+        const lastTime = data[data.length - 1].time;
+
+        const timeDifference = lastTime.getTime() - firstTime.getTime();
+
+        xAxisLabels = Array.from({ length: numLabels }, (_, i) => {
+            const fraction = i / (numLabels - 1); // Get a fraction between 0 and 1
+            const labelTime = new Date(
+                firstTime.getTime() + timeDifference * fraction
             );
 
-            const month = String(time.getMonth())
-            const date = String(time.getDate())
-            const hours = String(time.getHours()).padStart(2, "0");
-            const minutes = String(time.getMinutes()).padStart(2, "0");
+            const month = String(labelTime.getMonth() + 1); // Month is 0-indexed
+            const date = String(labelTime.getDate()).padStart(2, "0");
+            const hours = String(labelTime.getHours()).padStart(2, "0");
+            const minutes = String(labelTime.getMinutes()).padStart(2, "0");
 
             return {
-                x: padding + (width - 2 * padding) * (i / 4),
-                label: `${month}/${date} - ${hours}:${minutes}`, // `${Math.round(hoursSpan * (i / 4))} hours ago`,
+                x: padding + (width - 2 * padding) * fraction,
+                label: `${month}/${date} - ${hours}:${minutes}`,
             };
         });
-
 
         // Generate y-axis labels (simplified, showing "nice" numbers)
         const numYTicks = 5;
@@ -86,7 +123,10 @@
         }
 
         yAxisLabels = niceTicks.map((value, i) => ({
-            y: height - padding - (height - 2 * padding) * (i / (numYTicks - 1)),
+            y:
+                height -
+                padding -
+                (height - 2 * padding) * (i / (numYTicks - 1)),
             label: value,
         }));
 
@@ -96,7 +136,6 @@
 
     let timeScale = () => 0;
     let valueScale = () => 0;
-    let pathData = "";
     let xAxisLabels = [];
     let yAxisLabels = [];
     let y0Position = undefined;
@@ -104,8 +143,14 @@
 </script>
 
 <svg {width} {height}>
-    {#if pathData}
-        <path d={pathData} fill="none" stroke="steelblue" stroke-width="1.5" opacity="0.95"/>
+    {#if $pathTween}
+        <path
+            d={$pathTween}
+            fill="none"
+            stroke="steelblue"
+            stroke-width="1.5"
+            opacity="0.95"
+        />
 
         {#if y0Position !== undefined}
             <line
@@ -190,10 +235,32 @@
     {/if}
 </svg>
 
+<div>
+    <button class="tiny-button" on:click={cycleHours}
+        >{selectedHours} hours</button
+    >
+</div>
+
 <style>
     svg {
         /* border: 1px solid #ccc; */
         font-family: var(--font-family-primary);
         font-size: 0.8em;
+    }
+
+    div {
+        display: flex;
+    }
+
+    .tiny-button {
+        padding: 1px 3px;
+        font-size: 8px;
+        border: 1px solid #aaa;
+        border-radius: 2px;
+        background-color: #e0e0e0;
+        cursor: pointer;
+
+        margin-left: auto;
+        margin-right: auto;
     }
 </style>
