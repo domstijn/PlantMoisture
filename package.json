@@ -1,24 +1,24 @@
 {
-	"name": "plantmoisture",
-	"private": true,
-	"version": "0.0.1",
-	"type": "module",
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
-		"prepare": "svelte-kit sync || echo ''"
-	},
-	"devDependencies": {
-		"@supabase/supabase-js": "^2.49.4",
-		"@sveltejs/adapter-auto": "^4.0.0",
-		"@sveltejs/adapter-vercel": "^5.7.0",
-		"@sveltejs/kit": "^2.16.0",
-		"@sveltejs/vite-plugin-svelte": "^5.0.0",
-		"svelte": "^5.0.0",
-		"vite": "^6.2.5"
-	},
-	"dependencies": {
-		"d3-interpolate-path": "^2.3.0"
-	}
+    "name": "plantmoisture",
+    "private": true,
+    "version": "0.0.1",
+    "type": "module",
+    "scripts": {
+        "dev": "vite dev",
+        "build": "vite build",
+        "preview": "vite preview",
+        "prepare": "svelte-kit sync || echo '' && echo \"VITE_GIT_COMMIT_HASH=$(git rev-parse --short HEAD)\" > .env"
+    },
+    "devDependencies": {
+        "@supabase/supabase-js": "^2.49.4",
+        "@sveltejs/adapter-auto": "^4.0.0",
+        "@sveltejs/adapter-vercel": "^5.7.0",
+        "@sveltejs/kit": "^2.16.0",
+        "@sveltejs/vite-plugin-svelte": "^5.0.0",
+        "svelte": "^5.0.0",
+        "vite": "^6.2.5"
+    },
+    "dependencies": {
+        "d3-interpolate-path": "^2.3.0"
+    }
 }

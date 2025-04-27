@@ -1,9 +1,9 @@
 /* Global styles */
 :root {
-    --bg-color: rgb(232, 232, 220);
-    --bg-color-gray-inv: #d4d3d3;
+    --bg-color: rgb(233, 233, 232);
+    --bg-color-gray-inv: #dedddb;
     --text-color: #000000;
-    --text-info-color: #4b4b4b;
+    --text-info-color: #5f5e5e;
 
     --font-family-primary: "Montserrat", sans-serif;
 }
