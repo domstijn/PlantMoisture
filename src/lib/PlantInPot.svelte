@@ -29,21 +29,6 @@
     } else {
         plantColor = "#573205"; // brown
     }
-
-    // -----------------------------------------------------------------
-
-    // // Example data (replace with your actual data from Supabase)
-    // const sensorData = [
-    //     { time: new Date(Date.now() - 4 * 3600 * 1000), value: 15 },
-    //     { time: new Date(Date.now() - 3 * 3600 * 1000), value: 22 },
-    //     { time: new Date(Date.now() - 2 * 3600 * 1000), value: 18 },
-    //     { time: new Date(Date.now() - 1 * 3600 * 1000), value: 25 },
-    //     { time: new Date(), value: 20 },
-    // ];
-
-    // const upperValue = 30;
-    // const lowerValue = 10;
-    // const timeWindow = 5; // Show data for the last 5 hours
 </script>
 
 <div class="wrapper">
@@ -94,7 +79,7 @@
 }
 
 .title {
-    margin: 0 auto 10vh auto; /* less bottom margin */
+    margin: 0 auto 12vh auto; /* less bottom margin */
     font-family: "Montserrat", sans-serif;
     font-style: oblique;
     font-weight: 700;
@@ -183,86 +168,3 @@
 }
 
 </style>
-
-<!-- <style>
-    .wrapper {
-        display: grid;
-        place-content: center;
-        height: 100vh; /* Full viewport height */
-    }
-
-    .title {
-        /* background: red; */
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 15vh;
-        font-family: "Montserrat", sans-serif;
-        font-style: oblique;
-        font-weight: 700;
-        font-size: 1.35rem;
-        /* color: rgb(11, 11, 11); */
-    }
-
-    .plant-in-pot {
-        /* background: blue; */
-        margin-left: auto;
-        margin-right: auto;
-        max-width: fit-content;
-        padding: 5px;
-        margin-bottom: 2.5vh;
-    }
-
-    .plant {
-        margin-left: auto;
-        margin-right: auto;
-        width: 100px; /* Adjust this value to change the width of the plant */
-        height: 160px; /* Adjust this value to change the height of the plant */
-        background-color: var(--plant-color);
-        border-radius: 10px 10px 0px 0px; /* Rounded edges for the plant */
-    }
-
-    .pot {
-        margin-left: auto;
-        margin-right: auto;
-        width: 120px; /* Adjust this value to change the width of the pot */
-        height: 80px; /* Adjust this value to change the height of the pot */
-        background-color: var(--pot-color);
-        border-radius: 0 0 10px 10px; /* Rounded edges for the pot */
-    }
-
-    .rim {
-        margin-left: auto;
-        margin-right: auto;
-        height: 5px;
-        width: 130px;
-        background: orange;
-        border-radius: 2px;
-    }
-
-    .info {
-        /* background: white; */
-        width: fit-content;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 10px;
-        font-family: "Inter", sans-serif;
-        font-weight: 550;
-        font-size: 0.75rem;
-
-        /* show detailed info in typical format */
-        display: flex;
-    }
-
-    .light {
-        font-weight: 200;
-        font-size: 0.5rem;
-        color: var(--text-info-color);
-    }
-
-    .time {
-        margin-top: 2rem;
-        font-weight: 200;
-        font-size: 0.5rem;
-        color: var(--text-info-color);
-    }
-</style> -->
