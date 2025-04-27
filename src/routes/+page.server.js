@@ -8,7 +8,7 @@ export async function load({ depends, url }) {
     depends("app:moisture-data");
 
     const hoursParam = url.searchParams.get("hours");
-    const numberOfHours = hoursParam ? parseInt(hoursParam, 10) : 24; // Default to 24
+    const numberOfHours = hoursParam ? parseInt(hoursParam, 10) : 48; // Default to 24
 
     try {
         // 1. Fetch data with error handling

@@ -47,7 +47,7 @@
     });
 
     // change hours to show on graph...
-    let selectedHours = 24; // Default value
+    let selectedHours = 48; // Default value
     const availableHours = [24, 48, 168];
 
     function cycleHours() {
