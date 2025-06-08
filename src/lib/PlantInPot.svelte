@@ -33,6 +33,7 @@
 
 <div class="wrapper">
     <div class="title">Plant in Pot</div>
+    <div class="subtitle">Currently disabled</div>
     <div class="plant-in-pot">
         <div class="plant" style="background: {plantColor};"></div>
         <div class="rim"></div>
@@ -64,9 +65,9 @@
             </p>
         </div>
     </div>
-    <div class="TimeSeries">
+    <!-- <div class="TimeSeries">
         <TimeSeriesGraph data={timeSeriesData} {hoursSpan} y0Value={(meanValue / 135) * 100}/>
-    </div>
+    </div> -->
 </div>
 
 <style>
@@ -85,6 +86,16 @@
     font-weight: 700;
     font-size: 1.35rem;
     text-align: center;
+}
+
+.subtitle { 
+    margin: 0 auto 12vh auto; /* less bottom margin */
+    font-family: "Montserrat", sans-serif;
+    font-style: oblique;
+    font-weight: 700;
+    font-size: 1.35rem;
+    text-align: center;
+    color: red;
 }
 
 .plant-in-pot {
